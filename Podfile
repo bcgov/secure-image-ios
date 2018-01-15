@@ -8,6 +8,8 @@ target 'SecureImage' do
 # pod 'FeedHenry', '5.0.5'
     pod 'RealmSwift'
     pod 'SwiftKeychainWrapper'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
 
 target 'SecureImageTests' do
