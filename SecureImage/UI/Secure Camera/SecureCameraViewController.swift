@@ -384,6 +384,50 @@ class SecureCameraViewController: UIViewController {
         
         showAlert(with: title, message: message)
     }
+    
+    // EXIF
+    
+    private func foo(sampleBuffer: CMSampleBuffer) {
+        
+        let meta = CMCopyDictionaryOfAttachments(nil, sampleBuffer, kCMAttachmentMode_ShouldPropagate)
+        let mmeta = CFDictionaryCreateMutableCopy(nil, 0, meta);
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
+        formatter.dateFormat = "HH:mm:ss.SS"
+    
+        let latitude = 48.4284
+        let longitude = 123.3656
+
+//        let gps = ["55": kCGImagePropertyGPSLatitude as String,
+//                   "44": kCGImagePropertyGPSLongitude as String] as CFDictionary
+        
+        let gps  = [fabs(latitude): kCGImagePropertyGPSLatitude,
+                   (latitude >= 0 ? "N" : "S"): kCGImagePropertyGPSLatitudeRef,
+                    fabs(longitude): kCGImagePropertyGPSLongitude,
+                    (longitude >= 0 ? "E" : "W"): kCGImagePropertyGPSLongitudeRef,
+                    formatter.string(from: Date()): kCGImagePropertyGPSTimeStamp] as CFDictionary
+ 
+        let pGPSDictionary = Unmanaged.passUnretained(kCGImagePropertyGPSDictionary).toOpaque()
+        let pGpsDict = Unmanaged.passUnretained(gps).toOpaque()
+        
+        // The gps info goes into the gps metadata part
+        CFDictionarySetValue(mmeta, pGPSDictionary, pGpsDict)
+        
+
+//
+//        // Here just as an example im adding the attitude matrix in the exif comment metadata
+//
+//        CMRotationMatrix m = att.rotationMatrix;
+//        GLKMatrix4 attMat = GLKMatrix4Make(m.m11, m.m12, m.m13, 0, m.m21, m.m22, m.m23, 0, m.m31, m.m32, m.m33, 0, 0, 0, 0, 1);
+//
+//        NSMutableDictionary *EXIFDictionary = (__bridge NSMutableDictionary*)CFDictionaryGetValue(mutable, kCGImagePropertyExifDictionary);
+//
+//        [EXIFDictionary setValue:NSStringFromGLKMatrix4(attMat) forKey:(NSString *)kCGImagePropertyExifUserComment];
+//
+//        CFDictionarySetValue(mutable, kCGImagePropertyExifDictionary, (__bridge void *)EXIFDictionary);
+//
+//        NSData *jpeg = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer] ;
+    }
 }
 
 // MARK: AVCapturePhotoCaptureDelegate
@@ -402,14 +446,42 @@ extension SecureCameraViewController: AVCapturePhotoCaptureDelegate {
         if let error = error {
             print(error.localizedDescription)
         }
-    
+        
+
         // previewPhotoSampleBuffer may be nil, and that's ok.
 
-        if let sampleBuffer = photoSampleBuffer, let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer) {
+        if let sampleBuffer = photoSampleBuffer {
 
+            
+            let meta = CMCopyDictionaryOfAttachments(nil, sampleBuffer, kCMAttachmentMode_ShouldPropagate)
+            let mmeta = CFDictionaryCreateMutableCopy(nil, 0, meta);
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone(abbreviation: "UTC")
+            formatter.dateFormat = "HH:mm:ss.SS"
+            
+            let latitude = 48.4284
+            let longitude = 123.3656
+            let gps  = [fabs(latitude): kCGImagePropertyGPSLatitude,
+                        (latitude >= 0 ? "N" : "S"): kCGImagePropertyGPSLatitudeRef,
+                        fabs(longitude): kCGImagePropertyGPSLongitude,
+                        (longitude >= 0 ? "E" : "W"): kCGImagePropertyGPSLongitudeRef,
+                        formatter.string(from: Date()): kCGImagePropertyGPSTimeStamp] as CFDictionary
+            
+            let pGPSDictionary = Unmanaged.passUnretained(kCGImagePropertyGPSDictionary).toOpaque()
+            let pGpsDict = Unmanaged.passUnretained(gps).toOpaque()
+            
+            // The gps info goes into the gps metadata part
+            CFDictionarySetValue(mmeta, pGPSDictionary, pGpsDict)
+
+            CMSetAttachments(sampleBuffer, mmeta!, kCMAttachmentMode_ShouldPropagate);
+
+            let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer)!
+            
+
+            
             performImageCapturedAnimations()
             
-            delegate?.secureCamera(self, captured: data)
+            delegate?.secureCamera(self, captured: data as Data)
         }
     }
 }
