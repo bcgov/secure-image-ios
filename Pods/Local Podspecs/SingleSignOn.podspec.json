@@ -1,0 +1,28 @@
+{
+  "name": "SingleSignOn",
+  "version": "1.0.3",
+  "summary": "Library to interface with RedHat SSO",
+  "description": "This pod contains various components to support authentication and credential managment",
+  "homepage": "http://pathfinder.gov.bc.ca",
+  "license": "Apache 2.0",
+  "authors": {
+    "Jason C. Leach": "jason.leach@fullboar.ca"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "path": "./"
+  },
+  "source_files": "SingleSignOn/**/*.{swift}",
+  "resources": "SingleSignOn/**/*.{storyboard,xib,xcassets}",
+  "requires_arc": true,
+  "dependencies": {
+    "SwiftKeychainWrapper": [
+      "~> 3.0.1"
+    ],
+    "Alamofire": [
+      "~> 4.6.0"
+    ]
+  }
+}

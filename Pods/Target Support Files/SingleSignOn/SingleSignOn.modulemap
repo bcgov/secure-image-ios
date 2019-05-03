@@ -1,0 +1,6 @@
+framework module SingleSignOn {
+  umbrella header "SingleSignOn-umbrella.h"
+
+  export *
+  module * { export * }
+}

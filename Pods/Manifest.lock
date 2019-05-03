@@ -1,0 +1,45 @@
+PODS:
+  - Alamofire (4.6.0)
+  - Realm (3.7.4):
+    - Realm/Headers (= 3.7.4)
+  - Realm/Headers (3.7.4)
+  - RealmSwift (3.7.4):
+    - Realm (= 3.7.4)
+  - SingleSignOn (1.0.3):
+    - Alamofire (~> 4.6.0)
+    - SwiftKeychainWrapper (~> 3.0.1)
+  - SwiftKeychainWrapper (3.0.1)
+
+DEPENDENCIES:
+  - Alamofire
+  - RealmSwift
+  - SingleSignOn (from `https://github.com/bcgov/mobile-authentication-ios.git`, tag `v1.0.4`)
+  - SwiftKeychainWrapper
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Realm
+    - RealmSwift
+    - SwiftKeychainWrapper
+
+EXTERNAL SOURCES:
+  SingleSignOn:
+    :git: https://github.com/bcgov/mobile-authentication-ios.git
+    :tag: v1.0.4
+
+CHECKOUT OPTIONS:
+  SingleSignOn:
+    :git: https://github.com/bcgov/mobile-authentication-ios.git
+    :tag: v1.0.4
+
+SPEC CHECKSUMS:
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Realm: a469bb59e33f9926102ccaea4349822c53b9117e
+  RealmSwift: a45861b21c180f5cf0f122144b9759fa8dde3e9e
+  SingleSignOn: 40af90d44f42bb1911e4efbae6945a8c85226520
+  SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+
+PODFILE CHECKSUM: b31a9f749b390a411731b50b82e015cb31422fd9
+
+COCOAPODS: 1.5.3

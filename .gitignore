@@ -40,9 +40,9 @@ playground.xcworkspace
 # We check in xcodeproj but exclude CocoaPods generated xcworkspace
 # We have chosen not to checked-in Pods.
 # Podfile.lock is not checked-in as we make sure all dependencies (and transitive ones) are fixed in podspec.
-Pods/
-*.xcworkspace
-Podfile.lock
+# Pods/
+# *.xcworkspace
+# Podfile.lock
 
 # Exclude generated directory as part of FeedHenry release process script
 dist/
