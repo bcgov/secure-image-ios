@@ -6,7 +6,9 @@ jobs:
     steps:
       - checkout 
       - run:
-          # build our application
+          name: Install Dependencies
+          command: pod install
+      - run:
           name: Build Application
           command: xcodebuild
       #- run:
