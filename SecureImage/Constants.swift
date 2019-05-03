@@ -48,7 +48,7 @@ struct Constants {
     }
     
     struct API {
-        static let serverURL = URL(string: "https://api-devex-mpf-secure-prod.pathfinder.gov.bc.ca/v1/")
+        static let serverURL = URL(string: "http://10.10.10.68:8080/v1/")
         static let createAlbumPath = "album/"
         static let addPhotoToAlbumPath = "album/:id"
         static let getAlbumDownloadUrlPath = "album/:id"
