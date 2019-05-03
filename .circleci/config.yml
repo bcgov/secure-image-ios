@@ -5,9 +5,9 @@ jobs:
       xcode: "10.0.0" 
     steps:
       - checkout 
-      - run:
-          name: Install Dependencies
-          command: pod install
+      # - run:
+      #     name: Install Dependencies
+      #     command: pod install
       - run:
           name: Build Application
           command: xcodebuild
