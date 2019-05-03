@@ -1,21 +1,28 @@
 version: 2 
+dependencies:
+  cache_directories:
+    - ~/.cocoapods
 jobs:
   build:
     macos:
       xcode: "10.0.0" 
     steps:
       - checkout 
-      # - run:
-      #     name: Install Dependencies
-      #     command: pod install
+      - run:
+          name: Install Profile
+          command: openssl aes-256-cbc -d -a -in blarb.mobileprovision.enc -out blarb.mobileprovision -pass pass:${FOO}   
+      - run:
+          name: Make Output
+          command: mkdir /tmp/out
       - run:
           name: Build Application
-          command: xcodebuild
-      #- run:
-      #    # compress Xcode's build output so that it can be stored as an artifact
-      #    name: Compress app for storage
-      #    command: zip -r app.zip build/Release/circleci-demo-macos.app
-      - store_artifacts: # store this build output. Read more: https://circleci.com/docs/2.0/artifacts/
-          path: build
-          destination: build
-
+          command: xcodebuild -workspace SecureImage.xcworkspace -scheme SecureImage -configuration Release -archivePath /tmp/out/SecureImage archive CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_ALLOWED=NO EXPANDED_CODE_SIGN_IDENTITY="-" EXPANDED_CODE_SIGN_IDENTITY_NAME="-"
+      - run:
+          name: Copy Config
+          command: cp options.plist /tmp/out
+      - run:
+         # compress Xcode's build output so that it can be stored as an artifact
+         name: Compress app for storage
+         command: pushd /tmp/out && zip -r /tmp/SecureImage.zip .
+      - store_artifacts:
+          path: /tmp/SecureImage.zip
