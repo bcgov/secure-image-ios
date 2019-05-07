@@ -13,7 +13,17 @@ jobs:
           command: mkdir /tmp/out && cp options.plist /tmp/out
       - run:
           name: Build Archive
-          command: xcodebuild -workspace SecureImage.xcworkspace -scheme SecureImage -configuration Release -xcconfig ci.xcconfig -archivePath /tmp/out/SecureImage archive
+          command: >
+            xcodebuild -workspace SecureImage.xcworkspace
+            -scheme SecureImage
+            -configuration Release
+            -archivePath /tmp/out/SecureImage
+            archive
+            CODE_SIGNING_REQUIRED=NO
+            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGN_IDENTITY=""
+            EXPANDED_CODE_SIGN_IDENTITY="-"
+            EXPANDED_CODE_SIGN_IDENTITY_NAME="-"
       - run:
          name: Package
          command: pushd /tmp/out && zip -r /tmp/SecureImage.zip .
