@@ -10,7 +10,7 @@ jobs:
       - checkout 
       - run:
           name: Setup
-          command: mkdir /tmp/archive && /tmp/out && cp options.plist /tmp/archive
+          command: mkdir /tmp/archive && mkdir /tmp/out && cp options.plist /tmp/archive
       - run:
           name: Build Archive
           command: >
