@@ -18,12 +18,8 @@ jobs:
             -scheme SecureImage
             -configuration Release
             -archivePath /tmp/out/SecureImage
+            -xcconfig ci.xcconfig
             archive
-            CODE_SIGNING_REQUIRED=NO
-            CODE_SIGNING_ALLOWED=NO
-            CODE_SIGN_IDENTITY=""
-            EXPANDED_CODE_SIGN_IDENTITY="-"
-            EXPANDED_CODE_SIGN_IDENTITY_NAME="-"
       - run:
          name: Package
          command: pushd /tmp/out && zip -r /tmp/SecureImage.zip .
