@@ -22,6 +22,6 @@ jobs:
             archive
       - run:
          name: Package
-         command: pushd /tmp/out && zip -r /tmp/SecureImage.zip .
+         command: pushd /tmp/out && zip -r /tmp/SecureImage-${CIRCLE_BUILD_NUM}.zip .
       - store_artifacts:
-          path: /tmp/SecureImage.zip
+          path: /tmp/SecureImage-${CIRCLE_BUILD_NUM}.zip
