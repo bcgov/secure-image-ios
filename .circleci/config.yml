@@ -9,20 +9,13 @@ jobs:
     steps:
       - checkout 
       - run:
-          name: Install Profile
-          command: openssl aes-256-cbc -d -a -in blarb.mobileprovision.enc -out blarb.mobileprovision -pass pass:${FOO}   
+          name: Setup
+          command: mkdir /tmp/out && cp options.plist /tmp/out
       - run:
-          name: Make Output
-          command: mkdir /tmp/out
+          name: Build Archive
+          command: xcodebuild -workspace SecureImage.xcworkspace -scheme SecureImage -configuration Release -xcconfig ci.xcconfig -archivePath /tmp/out/SecureImage archive
       - run:
-          name: Build Application
-          command: xcodebuild -workspace SecureImage.xcworkspace -scheme SecureImage -configuration Release -archivePath /tmp/out/SecureImage archive CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_ALLOWED=NO EXPANDED_CODE_SIGN_IDENTITY="-" EXPANDED_CODE_SIGN_IDENTITY_NAME="-"
-      - run:
-          name: Copy Config
-          command: cp options.plist /tmp/out
-      - run:
-         # compress Xcode's build output so that it can be stored as an artifact
-         name: Compress app for storage
+         name: Package
          command: pushd /tmp/out && zip -r /tmp/SecureImage.zip .
       - store_artifacts:
           path: /tmp/SecureImage.zip
