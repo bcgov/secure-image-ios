@@ -10,18 +10,18 @@ jobs:
       - checkout 
       - run:
           name: Setup
-          command: mkdir /tmp/out && cp options.plist /tmp/out
+          command: mkdir /tmp/archive && /tmp/out && cp options.plist /tmp/archive
       - run:
           name: Build Archive
           command: >
             xcodebuild -workspace SecureImage.xcworkspace
             -scheme SecureImage
             -configuration Release
-            -archivePath /tmp/out/SecureImage
+            -archivePath /tmp/archive/SecureImage
             -xcconfig ci.xcconfig
             archive
       - run:
          name: Package
-         command: pushd /tmp/out && zip -r /tmp/SecureImage-${CIRCLE_BUILD_NUM}.zip .
+         command: pushd /tmp/archive && zip -r /tmp/out/SecureImage-${CIRCLE_BUILD_NUM}.zip .
       - store_artifacts:
-          path: /tmp/SecureImage-${CIRCLE_BUILD_NUM}.zip
+          path: /tmp/out
