@@ -27,7 +27,7 @@ steps:
     xcodeVersion: 'default' # Options: 8, 9, 10, default, specifyPath
     args: '-xcconfig ci.xcconfig -archivePath $(Build.BinariesDirectory)/out/SecureImage'
     # artifactsDirectory: '$(Build.ArtifactStagingDirectory)/SecureImage'
-- task: CopyFiles@3
+- task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.BinariesDirectory)'
     Contents: 'options.plist'
