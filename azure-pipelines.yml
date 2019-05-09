@@ -1,7 +1,14 @@
-# Xcode
-# Build, test, and archive an Xcode workspace on macOS.
+# NOTES
+#
+# In the Azure DevOps Web IDe you must set the following pipeline variables:
+#   - AzureStorageAccountName
+#   - AzureSubscriptionID
+# They will be used by a task to copy the build artifact(s) to an azure blob storage for easy
+# downloading or further processing.
+#
 # Add steps that install certificates, test, sign, and distribute an app, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/xcode
+#
 
 trigger:
 - master
