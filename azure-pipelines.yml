@@ -9,9 +9,6 @@ trigger:
 pool:
   vmImage: 'macos-latest'
 
-env:
-  AZURE_SUBSCRIPTION_ID: $(AzureSubscriptionID)
-
 steps:
 - task: Xcode@5
   inputs:
@@ -30,20 +27,8 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
     replaceExistingArchive: true
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#     ArtifactName: '$(Build.BuildId).zip'
-#     publishLocation: 'Container'
-# - task: AzureFileCopy@3
-#   inputs:
-#     SourcePath: '$(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
-#     azureSubscription: 'Pay-As-You-Go(ffad58ed-c56b-41f7-a68d-868304d24cd1)'
-#     Destination: 'AzureBlob'
-#     storage: 'cs2ffad58edc56bx41f7xa68'
-#     ContainerName: 'artifacts'
 - task: AzureCLI@1
   inputs:
-    azureSubscription: '$env:AZURE_SUBSCRIPTION_ID'
+    azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name cs2ffad58edc56bx41f7xa68 --container-name "artifacts" --name "SecureImage-$(Build.BuildId).zip" --file $(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildId).zip" --file $(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
