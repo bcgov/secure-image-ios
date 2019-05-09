@@ -29,7 +29,7 @@ steps:
     # artifactsDirectory: '$(Build.ArtifactStagingDirectory)/SecureImage'
 - task: CopyFiles@2
   inputs:
-    # SourceFolder: '$(Build.BinariesDirectory)'
+    SourceFolder: '$(Build.SourcesDirectory)'
     Contents: 'options.plist'
     TargetFolder: '$(Build.BinariesDirectory)/out/'
 - task: ArchiveFiles@2
