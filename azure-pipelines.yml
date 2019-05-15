@@ -17,39 +17,40 @@ pool:
   vmImage: 'macos-latest'
 
 steps:
-# - task: InstallAppleCertificate@2
-#   inputs:
-#     certSecureFile: 'enterprise.p12'
-#     certPwd: '$(P12password)'
-#     keychain: 'temp'
-# - task: InstallAppleProvisioningProfile@1
-#   inputs:
-#     provisioningProfileLocation: 'secureFiles'
-#     provProfileSecureFile: 'SecureImage-Enterprise.mobileprovision'
+- task: InstallAppleCertificate@2
+  inputs:
+    certSecureFile: 'enterprise.p12'
+    certPwd: '$(P12password)'
+    keychain: 'temp'
+- task: InstallAppleProvisioningProfile@1
+  inputs:
+    provisioningProfileLocation: 'secureFiles'
+    provProfileSecureFile: 'SecureImage-Enterprise.mobileprovision'
 - task: Xcode@5
   inputs:
-    actions: 'archive'
+    actions: 'build'
     scheme: 'SecureImage'
     sdk: 'iphoneos'
     configuration: 'Release'
     xcWorkspacePath: '**/SecureImage.xcworkspace'
     xcodeVersion: 'default' # Options: 8, 9, 10, default, specifyPath
-    args: '-xcconfig release-ci.xcconfig -archivePath $(Build.BinariesDirectory)/out/SecureImage'
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: 'options.plist'
-    TargetFolder: '$(Build.BinariesDirectory)/out/'
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/out'
-    includeRootFolder: false # don't include the /out portion of the path
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
-    replaceExistingArchive: true
-- task: AzureCLI@1
-  inputs:
-    connectedServiceNameARM: 'FullboarServiceConnection'
-    azureSubscription: '$(AzureSubscriptionID)'
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildId).zip" --file $(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
+    signingOption: 'default'
+    # args: '-xcconfig release-ci.xcconfig -archivePath $(Build.BinariesDirectory)/out/SecureImage'
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: '$(Build.SourcesDirectory)'
+#     Contents: 'options.plist'
+#     TargetFolder: '$(Build.BinariesDirectory)/out/'
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(Build.BinariesDirectory)/out'
+#     includeRootFolder: false # don't include the /out portion of the path
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
+#     replaceExistingArchive: true
+# - task: AzureCLI@1
+#   inputs:
+#     connectedServiceNameARM: 'FullboarServiceConnection'
+#     azureSubscription: '$(AzureSubscriptionID)'
+#     scriptLocation: 'inlineScript'
+#     inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildId).zip" --file $(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
