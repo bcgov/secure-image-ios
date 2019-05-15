@@ -49,6 +49,7 @@ steps:
     replaceExistingArchive: true
 - task: AzureCLI@1
   inputs:
+    connectedServiceNameARM: 'FullboarServiceConnection'
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
     inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildId).zip" --file $(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
