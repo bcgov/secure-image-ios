@@ -17,6 +17,15 @@ pool:
   vmImage: 'macos-latest'
 
 steps:
+# - task: InstallAppleCertificate@2
+#   inputs:
+#     certSecureFile: 'enterprise.p12'
+#     certPwd: '$(P12password)'
+#     keychain: 'temp'
+# - task: InstallAppleProvisioningProfile@1
+#   inputs:
+#     provisioningProfileLocation: 'secureFiles'
+#     provProfileSecureFile: 'SecureImage-Enterprise.mobileprovision'
 - task: Xcode@5
   inputs:
     actions: 'archive'
@@ -25,8 +34,7 @@ steps:
     configuration: 'Release'
     xcWorkspacePath: '**/SecureImage.xcworkspace'
     xcodeVersion: 'default' # Options: 8, 9, 10, default, specifyPath
-    args: '-xcconfig ci.xcconfig -archivePath $(Build.BinariesDirectory)/out/SecureImage'
-    # artifactsDirectory: '$(Build.ArtifactStagingDirectory)/SecureImage'
+    args: '-xcconfig release-ci.xcconfig -archivePath $(Build.BinariesDirectory)/out/SecureImage'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
