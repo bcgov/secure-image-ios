@@ -9,12 +9,17 @@
 	<key>signingStyle</key>
 	<string>automatic</string>
 	<key>rebuildFromBitcode</key>
-	<true/>
+	<false/>
 	<key>stripSwiftSymbols</key>
 	<true/>
 	<key>uploadBitcode</key>
 	<false/>
 	<key>uploadSymbols</key>
 	<false/>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>ca.bc.gov.pathfinder.mobile.SecureImage</key>
+		<string>b7ba91a2-ee80-4828-9a9b-12cad290790a</string>
+	</dict>
 </dict>
 </plist>
