@@ -56,14 +56,20 @@ steps:
     exportOptionsPlist: 'options.plist'
     archivePath: '$(Build.ArtifactStagingDirectory)/pack'
     args: '-xcconfig release.xcconfig'
+- task: CopyFiles@2
+  displayName: Copy IPA file
+  inputs:
+    contents: 'SecureImage.ipa'
+    sourceFolder: '$(Build.SourcesDirectory)/output/$(SDK)/$(Configuration)'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: AzureCLI@1
-  displayName: Copy IPA to Azure storage
+  displayName: Upload IPA to Azure storage
   timeoutInMinutes: 1
   inputs:
     connectedServiceNameARM: 'FullboarServiceConnection'
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.ipa" --file "$(Build.SourcesDirectory)/output/$(SDK)/$(Configuration)/SecureImage.ipa"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.ipa" --file "$(Build.ArtifactStagingDirectory)/SecureImage.ipa"'
 - task: CopyFiles@2
   displayName: Copy options (plist) file
   timeoutInMinutes: 1
@@ -81,7 +87,7 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip'
     replaceExistingArchive: true
 - task: AzureCLI@1
-  displayName: Copy archive to Azure storage
+  displayName: Upload archive to Azure storage
   timeoutInMinutes: 1
   inputs:
     connectedServiceNameARM: 'FullboarServiceConnection'
