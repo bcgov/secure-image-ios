@@ -93,4 +93,4 @@ steps:
     connectedServiceNameARM: 'FullboarServiceConnection'
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.zip" --file $(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.zip" --file "$(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip"'
