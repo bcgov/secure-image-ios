@@ -15,7 +15,6 @@
 		5625FEC91FFD5FCA00E1F6BD /* SecureCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5625FEC81FFD5FCA00E1F6BD /* SecureCameraViewController.swift */; };
 		5625FECB1FFD65E100E1F6BD /* VideoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5625FECA1FFD65E100E1F6BD /* VideoPreviewView.swift */; };
 		562A75DE20067A8A00D55426 /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562A75DD20067A8A00D55426 /* LocationServices.swift */; };
-		563307752048B9B600980947 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 563307742048B9B600980947 /* CHANGELOG.md */; };
 		563F228B1FE839F600E33986 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 563F228A1FE839F600E33986 /* Assets.xcassets */; };
 		565417A91FEDD7B900D0B2AC /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565417A81FEDD7B900D0B2AC /* UIViewExtensions.swift */; };
 		56579EA0200E7D9E00B2AF3E /* AsyncBlockOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56579E9F200E7D9E00B2AF3E /* AsyncBlockOperation.swift */; };
@@ -49,7 +48,6 @@
 		56D17DC61FE1BC68002DF790 /* Albums.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56D17DC51FE1BC68002DF790 /* Albums.storyboard */; };
 		56D17DCE1FE1D379002DF790 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D17DCD1FE1D379002DF790 /* Constants.swift */; };
 		56D17DD01FE1D381002DF790 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D17DCF1FE1D381002DF790 /* Functions.swift */; };
-		56D17DD21FE1D3BD002DF790 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 56D17DD11FE1D3BD002DF790 /* README.md */; };
 		56D17DD41FE1D521002DF790 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 56D17DD31FE1D520002DF790 /* Podfile */; };
 		56E4165B2007FD74005CC941 /* BackendAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E4165A2007FD74005CC941 /* BackendAPI.swift */; };
 		56E416632008489C005CC941 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E416622008489C005CC941 /* NetworkManager.swift */; };
@@ -504,10 +502,8 @@
 				56C1D0AB1FEADE78004B0266 /* PreviewImageCollectionViewCell.xib in Resources */,
 				569D84F81FE1F22E0054173D /* CreateFirstAlbumView.xib in Resources */,
 				56D17DD41FE1D521002DF790 /* Podfile in Resources */,
-				56D17DD21FE1D3BD002DF790 /* README.md in Resources */,
 				56FC00F02034C783002D00CE /* LaunchScreen.storyboard in Resources */,
 				563F228B1FE839F600E33986 /* Assets.xcassets in Resources */,
-				563307752048B9B600980947 /* CHANGELOG.md in Resources */,
 				569D84EF1FE1DE720054173D /* LockScreenAuthenticateViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -865,15 +861,13 @@
 			baseConfigurationReference = 5813D40B49A28E9484CACA72 /* Pods-SecureImage.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "$(APPLE_CERTIFICATE_SIGNING_IDENTITY)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEVELOPMENT_TEAM = KH9MTRSDAZ;
 				INFOPLIST_FILE = SecureImage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ca.bc.gov.pathfinder.mobile.SecureImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "$(APPLE_PROV_PROFILE_UUID)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -32,14 +32,15 @@ steps:
     provisioningProfileLocation: 'secureFiles'
     provProfileSecureFile: 'SecureImage_InHouse.mobileprovision'
     removeProfile: true
-# - task: CmdLine@2
-#   inputs:
-#     script: |
-#         echo "BD = $(Agent.BuildDirectory)"
-#         echo "AS = $(Build.ArtifactStagingDirectory)"
-#         echo "BIN = $(Build.BinariesDirectory)"
-#         echo "SRC = $(Build.SourcesDirectory)"
+- task: CmdLine@2
+  displayName: Bump build number
+  timeoutInMinutes: 1
+  inputs:
+    script: |
+        ./scripts/az-set-build-no.sh
 - task: Xcode@5
+  displayName: Build
+  timeoutInMinutes: 15
   inputs:
     actions: 'build'
     scheme: 'SecureImage'
@@ -53,38 +54,37 @@ steps:
     exportMethod: 'enterprise'
     exportOptions: 'plist'
     exportOptionsPlist: 'options.plist'
-    args: '-xcconfig release.xcconfig -archivePath $(Build.ArtifactStagingDirectory)/pack/SecureImage'
-- task: CopyFiles@2
-  inputs:
-    contents: 'SecureImage.ipa'
-    sourceFolder: '$(Build.SourcesDirectory)/output/$(SDK)/$(Configuration)'
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    archivePath: '$(Build.ArtifactStagingDirectory)/pack'
+    args: '-xcconfig release.xcconfig'
 - task: AzureCLI@1
+  displayName: Copy IPA to Azure storage
+  timeoutInMinutes: 1
   inputs:
     connectedServiceNameARM: 'FullboarServiceConnection'
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildId).ipa" --file "$(Build.ArtifactStagingDirectory)/SecureImage.ipa"'
-# - task: CopyFiles@2
-#   inputs:
-#     contents: '**/*.xcarchive'
-#     sourceFolder: '$(Build.SourcesDirectory)'
-#     targetFolder: '$(Build.ArtifactStagingDirectory)/pack'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.ipa" --file "$(Build.SourcesDirectory)/output/$(SDK)/$(Configuration)/SecureImage.ipa"'
 - task: CopyFiles@2
+  displayName: Copy options (plist) file
+  timeoutInMinutes: 1
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: 'options.plist'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/pack'
 - task: ArchiveFiles@2
+  displayName: Create archive
+  timeoutInMinutes: 1
   inputs:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/pack'
     includeRootFolder: false # don't include the /pack portion of the path
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip'
     replaceExistingArchive: true
 - task: AzureCLI@1
+  displayName: Copy archive to Azure storage
+  timeoutInMinutes: 1
   inputs:
     connectedServiceNameARM: 'FullboarServiceConnection'
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildId).zip" --file $(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildId).zip'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.zip" --file $(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip'
