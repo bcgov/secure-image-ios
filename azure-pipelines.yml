@@ -53,6 +53,7 @@ steps:
     exportMethod: 'enterprise'
     exportOptions: 'plist'
     exportOptionsPlist: 'options.plist'
+    args: '-xcconfig release.xcconfig -archivePath $(Build.ArtifactStagingDirectory)/pack/SecureImage'
 - task: CopyFiles@2
   inputs:
     contents: 'SecureImage.ipa'
@@ -64,11 +65,11 @@ steps:
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
     inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildId).ipa" --file "$(Build.ArtifactStagingDirectory)/SecureImage.ipa"'
-- task: CopyFiles@2
-  inputs:
-    contents: 'SecureImage.xcarchive'
-    sourceFolder: '$(Build.SourcesDirectory)'
-    targetFolder: '$(Build.ArtifactStagingDirectory)/pack'
+# - task: CopyFiles@2
+#   inputs:
+#     contents: '**/*.xcarchive'
+#     sourceFolder: '$(Build.SourcesDirectory)'
+#     targetFolder: '$(Build.ArtifactStagingDirectory)/pack'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
