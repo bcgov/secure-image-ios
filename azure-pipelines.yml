@@ -69,7 +69,7 @@ steps:
     connectedServiceNameARM: 'FullboarServiceConnection'
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.ipa" --file "$(Build.ArtifactStagingDirectory)/SecureImage.ipa"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildNumber).ipa" --file "$(Build.ArtifactStagingDirectory)/SecureImage.ipa"'
 - task: CopyFiles@2
   displayName: Copy options (plist) file
   timeoutInMinutes: 1
@@ -84,7 +84,7 @@ steps:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/pack'
     includeRootFolder: false # don't include the /pack portion of the path
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildNumber).zip'
     replaceExistingArchive: true
 - task: AzureCLI@1
   displayName: Upload archive to Azure storage
@@ -93,4 +93,4 @@ steps:
     connectedServiceNameARM: 'FullboarServiceConnection'
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.zip" --file "$(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-$(Build.BuildNumber).zip" --file "$(Build.ArtifactStagingDirectory)/SecureImage-$(Build.BuildNumber).zip"'
