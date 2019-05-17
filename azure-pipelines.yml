@@ -49,6 +49,9 @@ steps:
   inputs:
     script: |
         ./scripts/az-set-build-no.sh
+- task: CocoaPods@0
+  inputs:
+    forceRepoUpdate: false
 - task: Xcode@5
   displayName: Build
   timeoutInMinutes: 15
