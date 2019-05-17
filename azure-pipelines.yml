@@ -27,7 +27,7 @@ variables:
   CertificateFileName: 'enterprise.p12'
   WorkspacePath: '**/SecureImage.xcworkspace'
   SchemaName: 'SecureImage'
-  BBBB: ${BUILD_BUILDID}
+  BuildID: ${BUILD_BUILDID}
   AZServiceConnectionName: 'FullboarServiceConnection'
   AZBlobStorageContainerName: 'artifacts'
   ExportOptionsFileName: 'options.plist'
@@ -83,7 +83,7 @@ steps:
     connectedServiceNameARM: $(AZServiceConnectionName)
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "$(SchemaName)-$(BBBB).ipa" --file "$(Build.ArtifactStagingDirectory)/$(SchemaName).ipa"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "$(SchemaName)-$(BuildID).ipa" --file "$(Build.ArtifactStagingDirectory)/$(SchemaName).ipa"'
 - task: CopyFiles@2
   displayName: Copy options (plist) file
   timeoutInMinutes: 1
@@ -107,4 +107,4 @@ steps:
     connectedServiceNameARM: $(AZServiceConnectionName)
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "$(SchemaName)-$(BBBB).zip" --file "$(Build.ArtifactStagingDirectory)/$(SchemaName).zip"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "$(SchemaName)-$(BuildID).zip" --file "$(Build.ArtifactStagingDirectory)/$(SchemaName).zip"'
