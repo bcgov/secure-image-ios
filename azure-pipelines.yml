@@ -21,16 +21,27 @@ trigger:
 pool:
   vmImage: 'macos-latest'
 
+variables:
+  ProfileFileName: 'SecureImage_InHouse.mobileprovision'
+  ProfileUUID: '60b7a024-04c8-4058-bf28-3e4c65d7454b'
+  CertificateFileName: 'enterprise.p12'
+  WorkspacePath: '**/SecureImage.xcworkspace'
+  SchemaName: 'SecureImage'
+  BBBB: ${BUILD_BUILDID}
+  AZServiceConnectionName: 'FullboarServiceConnection'
+  AZBlobStorageContainerName: 'artifacts'
+  ExportOptionsFileName: 'options.plist'
+
 steps:
 - task: InstallAppleCertificate@2
   inputs:
-    certSecureFile: 'enterprise.p12'
+    certSecureFile: $(CertificateFileName)
     certPwd: '$(P12password)'
     keychain: 'temp'
 - task: InstallAppleProvisioningProfile@1
   inputs:
     provisioningProfileLocation: 'secureFiles'
-    provProfileSecureFile: 'SecureImage_InHouse.mobileprovision'
+    provProfileSecureFile: $(ProfileFileName)
     removeProfile: true
 - task: CmdLine@2
   displayName: Bump build number
@@ -43,39 +54,39 @@ steps:
   timeoutInMinutes: 15
   inputs:
     actions: 'build'
-    scheme: 'SecureImage'
+    scheme: $(SchemaName)
     sdk: 'iphoneos'
     configuration: 'Release'
-    xcWorkspacePath: '**/SecureImage.xcworkspace'
+    xcWorkspacePath: $(WorkspacePath)
     xcodeVersion: 'default'
     packageApp: true
     signingOption: 'default'
-    provisioningProfileUuid: '60b7a024-04c8-4058-bf28-3e4c65d7454b'
+    provisioningProfileUuid: $(ProfileUUID)
     exportMethod: 'enterprise'
     exportOptions: 'plist'
-    exportOptionsPlist: 'options.plist'
+    exportOptionsPlist: $(ExportOptionsFileName)
     archivePath: '$(Build.ArtifactStagingDirectory)/pack'
     args: '-xcconfig release.xcconfig'
 - task: CopyFiles@2
   displayName: Copy IPA file
   inputs:
-    contents: 'SecureImage.ipa'
+    contents: '(SchemaName).ipa'
     sourceFolder: '$(Build.SourcesDirectory)/output/$(SDK)/$(Configuration)'
     targetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: AzureCLI@1
   displayName: Upload IPA to Azure storage
   timeoutInMinutes: 1
   inputs:
-    connectedServiceNameARM: 'FullboarServiceConnection'
+    connectedServiceNameARM: $(AZServiceConnectionName)
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.ipa" --file "$(Build.ArtifactStagingDirectory)/SecureImage.ipa"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "(SchemaName)-$(BBBB).ipa" --file "$(Build.ArtifactStagingDirectory)/(SchemaName).ipa"'
 - task: CopyFiles@2
   displayName: Copy options (plist) file
   timeoutInMinutes: 1
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: 'options.plist'
+    Contents: $(ExportOptionsFileName)
     TargetFolder: '$(Build.ArtifactStagingDirectory)/pack'
 - task: ArchiveFiles@2
   displayName: Create archive
@@ -84,13 +95,13 @@ steps:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/pack'
     includeRootFolder: false # don't include the /pack portion of the path
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/(SchemaName)-$(BBBB).zip'
     replaceExistingArchive: true
 - task: AzureCLI@1
   displayName: Upload archive to Azure storage
   timeoutInMinutes: 1
   inputs:
-    connectedServiceNameARM: 'FullboarServiceConnection'
+    connectedServiceNameARM: $(AZServiceConnectionName)
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "artifacts" --name "SecureImage-${BUILD_BUILDID}.zip" --file "$(Build.ArtifactStagingDirectory)/SecureImage-${BUILD_BUILDID}.zip"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "(SchemaName)-$(BBBB).zip" --file "$(Build.ArtifactStagingDirectory)/(SchemaName)-$(BBBB).zip"'
