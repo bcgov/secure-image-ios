@@ -73,7 +73,7 @@ steps:
 - task: CopyFiles@2
   displayName: Copy IPA file
   inputs:
-    contents: '(SchemaName).ipa'
+    contents: '$(SchemaName).ipa'
     sourceFolder: '$(Build.SourcesDirectory)/output/$(SDK)/$(Configuration)'
     targetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: AzureCLI@1
@@ -83,7 +83,7 @@ steps:
     connectedServiceNameARM: $(AZServiceConnectionName)
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "(SchemaName)-$(BBBB).ipa" --file "$(Build.ArtifactStagingDirectory)/(SchemaName).ipa"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "$(SchemaName)-$(BBBB).ipa" --file "$(Build.ArtifactStagingDirectory)/$(SchemaName).ipa"'
 - task: CopyFiles@2
   displayName: Copy options (plist) file
   timeoutInMinutes: 1
@@ -98,7 +98,7 @@ steps:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/pack'
     includeRootFolder: false # don't include the /pack portion of the path
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/(SchemaName)-$(BBBB).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(SchemaName)-$(BBBB).zip'
     replaceExistingArchive: true
 - task: AzureCLI@1
   displayName: Upload archive to Azure storage
@@ -107,4 +107,4 @@ steps:
     connectedServiceNameARM: $(AZServiceConnectionName)
     azureSubscription: '$(AzureSubscriptionID)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "(SchemaName)-$(BBBB).zip" --file "$(Build.ArtifactStagingDirectory)/(SchemaName)-$(BBBB).zip"'
+    inlineScript: 'az storage blob upload --account-name $(AzureStorageAccountName) --container-name "$(AZBlobStorageContainerName)" --name "$(SchemaName)-$(BBBB).zip" --file "$(Build.ArtifactStagingDirectory)/$(SchemaName)-$(BBBB).zip"'
