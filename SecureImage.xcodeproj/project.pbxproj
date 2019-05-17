@@ -392,7 +392,6 @@
 				56D17D8D1FE1A3DC002DF790 /* Frameworks */,
 				56D17D8E1FE1A3DC002DF790 /* Resources */,
 				6C8F5CA20073CB3A2E761B9F /* [CP] Embed Pods Frameworks */,
-				99FAEDDB5AA19C99BD8C6A24 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -412,7 +411,6 @@
 				56D17DA11FE1A3DC002DF790 /* Frameworks */,
 				56D17DA21FE1A3DC002DF790 /* Resources */,
 				119AF1497D8C2CB08B1C4951 /* [CP] Embed Pods Frameworks */,
-				4A390937AAFAB17A5D6FF01D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -567,21 +565,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SecureImageTests/Pods-SecureImageTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4A390937AAFAB17A5D6FF01D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SecureImageTests/Pods-SecureImageTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4A6331B0E7C76EACD3D47143 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -624,21 +607,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SecureImage/Pods-SecureImage-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		99FAEDDB5AA19C99BD8C6A24 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SecureImage/Pods-SecureImage-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -845,12 +813,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KH9MTRSDAZ;
 				INFOPLIST_FILE = SecureImage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ca.bc.gov.pathfinder.mobile.SecureImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -861,13 +831,15 @@
 			baseConfigurationReference = 5813D40B49A28E9484CACA72 /* Pods-SecureImage.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KH9MTRSDAZ;
 				INFOPLIST_FILE = SecureImage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ca.bc.gov.pathfinder.mobile.SecureImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
