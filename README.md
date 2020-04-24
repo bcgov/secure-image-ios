@@ -1,3 +1,7 @@
+This repo is deprecated. Find the new consolidated one [here](https://github.com/bcgov/secure-image-app) 
+
+---
+
 
 ## Example Readme
 
